@@ -1,0 +1,135 @@
+#!/usr/bin/env bash
+
+set -o errexit
+set -o nounset
+set -o pipefail
+
+__msg_error() {
+    # Write an error message to STDERR only if the LOG_LEVEL_INT is >= 1
+    # usage: __msg_error "Hello World!"
+    ( [[ $LOG_LEVEL_INT -ge 1 ]] && echo -e "\e[31m\e[1m$*\e[0m" >&2 || true )
+}
+
+__msg_warn() {
+    # Write a warning message to STDOUT only if the LOG_LEVEL_INT is >= 2
+    # example: __msg_warn "Hello World!"
+    ( [[ $LOG_LEVEL_INT -ge 2 ]] && echo -e "\e[33m$*\e[0m" || true )
+}
+
+__msg_info() {
+    # Write an info message to STDOUT only if the LOG_LEVEL_INT is >= 3
+    # example: __msg_info "Hello World!"
+    ( [[ $LOG_LEVEL_INT -ge 3 ]] && echo -e "$*" ) || true
+}
+
+__msg_debug() {
+    # Write an debug message to STDOUT only if the LOG_LEVEL_INT is >= 4
+    # example: __msg_debug "Hello World!"
+    ( [[ $LOG_LEVEL_INT -ge 4 ]] && echo -e "$*" ) || true
+}
+
+
+set_log_level() {
+    local log_level=$(echo "$1" | tr '[:upper:]' '[:lower:]')
+    LOG_LEVEL_INT=1
+
+    case $log_level in
+        none)
+            LOG_LEVEL_INT=0 ;;
+        error)
+            LOG_LEVEL_INT=1 ;;
+        warn)
+            LOG_LEVEL_INT=2 ;;
+        info)
+            LOG_LEVEL_INT=3 ;;
+        debug)
+            LOG_LEVEL_INT=4 ;;
+        trace)
+            LOG_LEVEL_INT=5
+            set -x
+            ;;
+        *)
+            __msg_error "Unknown log level '$1' specified.  Proceeding with 'error'."
+            LOG_LEVEL_INT=1
+            ;;
+    esac
+}
+
+check_solaredge_config() {
+  if [[ -z "${SOLAREDGE_API_TOKEN}" ]]; then
+    __msg_error "No SolarEdge API token found.  Set 'SOLAREDGE_API_TOKEN' variable."
+    exit 1
+  fi
+
+  if [[ -z "${SOLAREDGE_SITE_ID}" ]]; then
+    __msg_error "No SolarEdge site id found.  Set 'SOLAREDGE_SITE_ID' variable."
+    exit 1
+  fi
+}
+
+make_date_request() {
+  local endpoint="$1"
+  local start_date="$2"
+  local end_date="${3:-$start_date}"
+  local time_unit="${4:-"QUARTER_OF_AN_HOUR"}"
+
+  local uri="https://monitoringapi.solaredge.com/site/${SOLAREDGE_SITE_ID}/${endpoint}?api_key=${SOLAREDGE_API_TOKEN}&startDate=${start_date}&endDate=${end_date}&timeUnit=${time_unit}"
+
+  curl -fs $uri || __msg_error "Failed to scrape '${endpoint}' on '${start_date}' - '${end_date}' timeunit: '${time_unit}'"
+}
+
+make_time_request() {
+  local endpoint="$1"
+  local start_time="$2"
+  local end_time="${3:-$(date "+%Y-%m-%dT%H:%M:%S" -d "$start_time $(date "+%Z" -d $start_time) + 1 day")}"
+  local time_unit="${4:-"QUARTER_OF_AN_HOUR"}"
+
+  local uri="https://monitoringapi.solaredge.com/site/${SOLAREDGE_SITE_ID}/${endpoint}?api_key=${SOLAREDGE_API_TOKEN}&startTime=${start_time/T/\+}&endTime=${end_time/T/\+}&timeUnit=${time_unit}"
+  __msg_debug "$uri" >&2
+
+  curl -fs $uri || __msg_error "Failed to scrape '${endpoint}' on '${start_time}' - '${end_time}' timeunit: '${time_unit}'"
+}
+
+to_csv() {
+  jq -r '. | keys[0] as $key | .[$key].unit as $unit | .[$key].measuredBy as $measuredBy | .[$key].timeUnit as $timeUnit | .[$key].values | map( [.date, (.value // 0), $key, $unit, $measuredBy, $timeUnit] ) | .[] | @csv'
+}
+
+make_folder() {
+  declare -r date="$1" prefix="${2:-"data/raw"}"
+  folder="${prefix}/$(date "+%Y/%m/%d" -d "$start_date")"
+  mkdir -p $folder
+  echo $folder
+}
+
+archive_day() {
+  declare -r series="$1" date="$2"
+
+  __msg_info "Fetching '${series}' on '${date}'"
+
+  local json_data=$(make_date_request "$series" "$date")
+  local output="$(make_folder $date)/${series}.json"
+  echo $json_data | jq -M "." > $output
+}
+
+archive_day_for_timeseries() {
+  declare -r series="$1" date="$2"
+
+  __msg_info "Fetching '${series}' on '${date}'"
+
+  local start_time="${date}T00:00:00"
+
+  local json_data=$(make_time_request "$series" "$start_time")
+  local output="$(make_folder $date)/${series}.json"
+  echo $json_data | jq -M "." > $output
+}
+
+main() {
+  set_log_level ${LOG_LEVEL:-"info"}
+  check_solaredge_config
+
+  local start_date="${1:-$(date "+%Y-%m-%d" -d "1 day ago")}"
+  archive_day "energy" $start_date
+  archive_day_for_timeseries "power" $start_date
+}
+
+main "$@"
