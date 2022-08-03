@@ -2,7 +2,7 @@ name: Scrape Data
 on:
   workflow_dispatch: {}
   schedule:
-    - cron '27 0,12 * * *'
+    - cron: '27 0,12 * * *'
 jobs:
   scrape:
     name: Scrape SolarEdge
