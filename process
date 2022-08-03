@@ -37,7 +37,6 @@ format_date() {
 
 convert_json() {
   declare -r json_file="$1"
-  __msg_info "Handling $(highlight "${json_file}")"
   echo "$(jq -r 'keys[0] as $series | .[$series] | {series: $series,  unit: .unit, measuredBy: .measuredBy, timeUnit: .timeUnit } as $metadata | .values | map( [.date, .value // 0] + [ $metadata[] ] ) | .[] | @csv' "$json_file")" | while read LINE; do
     LOCAL_DATE=$(echo $LINE | cut -d "\"" -f 2)
     if TIMESTAMP="$(date "+%s" -d "$LOCAL_DATE" 2>/dev/null)"; then
@@ -54,7 +53,6 @@ convert_json() {
       __msg_error "  Dropping value '$(highlight "$(echo $LINE | cut -d "," -f 2)")'"
     fi
   done
-  __msg_info "${GREEN}Done${RESET} handling '$(highlight "${json_file}")'"
 }
 
 main() {

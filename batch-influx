@@ -27,18 +27,18 @@ highlight() {
   echo -e "${BRIGHT}${1}${RESET}"
 }
 
+__msg_info "Converting all energy CSV files"
 for file in $(find -name "energy.csv" -type f); do
-  __msg_info "Handling '$(highlight "${file}")' in batch processing"
-  output=$(echo $file | sed 's/.json$/_line_protocol.txt/')
-  __msg_info "  writing to '$(highlight "${output}")'"
+  output=$(echo "$file" | sed 's/energy\.csv$/energy.lp/')
+  __msg_info "Converting '$(highlight "${file}")' to '$(highlight "${output}")'"
   ./influx "energy" "energy_wh" $file > $output
-  __msg_info "${GREEN}Done${RESET}"
+  __msg_info "${GREEN}Done${RESET} $(highlight "$(cat "$output" | wc -l)") lines written to ${output}"
 done
 
+__msg_info "Converting all power CSV files"
 for file in $(find -name "power.csv" -type f); do
-  __msg_info "Handling '$(highlight "${file}")' in batch processing"
-  output=$(echo $file | sed 's/.json$/_line_protocol.txt/')
-  __msg_info "  writing to '$(highlight "${output}")'"
+  output=$(echo "$file" | sed 's/power\.csv$/power.lp/')
+  __msg_info "Converting '$(highlight "${file}")' to '$(highlight "${output}")'"
   ./influx "power" "power_w" $file > $output
-  __msg_info "${GREEN}Done${RESET}"
+  __msg_info "${GREEN}Done${RESET} $(highlight "$(cat "$output" | wc -l)") lines written to ${output}"
 done

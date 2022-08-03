@@ -21,17 +21,38 @@ jobs:
         run: |
           TIME=$(date "+%Y-%m-%dT%T")
           DATE=$(date "+%Y-%m-%d" -d "$TIME")
+
           ./archive $DATE
           git add "data/raw/$(date "+%Y/%m/%d" -d "$TIME")"
+
           CHANGES=$(git status -s | cut -d " " -f 3)
           if [[ -n "$CHANGES" ]]; then
             git commit -m "data: Automatic scrape on ${TIME/T/ }"
+            
             for file in $CHANGES; do
-              output=$(echo "$file" | sed 's/.json$/.csv/')
+              output=$(echo "$file" | sed 's/raw/processed/' | sed 's/.json$/.csv/')
               echo "Processing $file into $output"
+              mkdir -p "$(dirname $output)"
               ./process $file > $output
               git add $output
             done;
+
+            ENERGY_FILES=$(echo $CHANGES | grep "energy.csv" )
+            for file in $ENERGY_FILES; do
+              output=$(echo "$file" | sed 's/energy\.csv/energy.lp/')
+              echo "Converting $file into $output"
+              ./influx energy energy_wh $file > $output
+              git add $output
+            done;
+
+            POWER_FILES=$(echo $CHANGES | grep "power.csv" )
+            for file in $POWER_FILES; do
+              output=$(echo "$file" | sed 's/power\.csv/power.lp/')
+              echo "Converting $file into $output"
+              ./influx power power_w $file > $output
+              git add $output
+            done;
+
             git commit -m "data: Automatic processing on ${TIME/T/ }"
             git push origin
           fi

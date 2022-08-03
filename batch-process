@@ -1,6 +1,36 @@
 #!/usr/bin/env bash
 
+set -o errexit
+set -o nounset
+set -o pipefail
+
+RED="\e[31m"
+YELLOW="\e[33m"
+GREEN="\e[32m"
+RESET="\e[0m"
+BRIGHT="\e[1m"
+DIM="\e[2m"
+
+__msg_info() {
+  echo -e "[${DIM}info${RESET}] $1" >&2
+}
+
+__msg_warn() {
+  echo -e "[${YELLOW}warn${RESET}] $1" >&2
+}
+
+__msg_error() {
+  echo -e "[${RED}warn${RESET}] $1" >&2
+}
+
+highlight() {
+  echo -e "${BRIGHT}${1}${RESET}"
+}
+
 for file in $(find -name "*.json" -type f); do
-  output=$(echo $file | sed 's/.json$/.csv/')
+  output=$(echo $file | sed 's/raw/processed/' | sed 's/.json$/.csv/')
+  __msg_info "Converting '$(highlight "${file}")' to '$(highlight "${output}")'"
+  mkdir -p "$(dirname "${output}")"
   ./process $file > $output
+  __msg_info "${GREEN}Done${RESET} $(highlight "$(cat $output | wc -l)") lines written to ${output}"
 done
