@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+
+set -o errexit
+set -o nounset
+set -o pipefail
+
+RED="\e[31m"
+YELLOW="\e[33m"
+GREEN="\e[32m"
+RESET="\e[0m"
+BRIGHT="\e[1m"
+DIM="\e[2m"
+
+__msg_info() {
+  echo -e "[${DIM}info${RESET}] $1" >&2
+}
+
+__msg_warn() {
+  echo -e "[${YELLOW}warn${RESET}] $1" >&2
+}
+
+__msg_error() {
+  echo -e "[${RED}warn${RESET}] $1" >&2
+}
+
+highlight() {
+  echo -e "${BRIGHT}${1}${RESET}"
+}
+
+for file in $(find -name "energy.csv" -type f); do
+  __msg_info "Handling '$(highlight "${file}")' in batch processing"
+  output=$(echo $file | sed 's/.json$/_line_protocol.txt/')
+  __msg_info "  writing to '$(highlight "${output}")'"
+  ./influx "energy" "energy_wh" $file > $output
+  __msg_info "${GREEN}Done${RESET}"
+done
+
+for file in $(find -name "power.csv" -type f); do
+  __msg_info "Handling '$(highlight "${file}")' in batch processing"
+  output=$(echo $file | sed 's/.json$/_line_protocol.txt/')
+  __msg_info "  writing to '$(highlight "${output}")'"
+  ./influx "power" "power_w" $file > $output
+  __msg_info "${GREEN}Done${RESET}"
+done
