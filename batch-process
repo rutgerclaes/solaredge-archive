@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+for file in $(find -name "*.json" -type f); do
+  output=$(echo $file | sed 's/.json$/.csv/')
+  ./process $file > $output
+done

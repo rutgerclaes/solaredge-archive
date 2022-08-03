@@ -6,12 +6,18 @@ set -o pipefail
 
 convert_json() {
   declare -r json_file="$1"
+  echo -e "[\e[2minfo\e[0m] Handling \e[1m${json_file}\e[0m" >&2
   echo "$(jq -r 'keys[0] as $series | .[$series] | {series: $series,  unit: .unit, measuredBy: .measuredBy, timeUnit: .timeUnit } as $metadata | .values | map( [.date, .value // 0] + [ $metadata[] ] ) | .[] | @csv' "$json_file")" | while read LINE; do
     LOCAL_DATE=$(echo $LINE | cut -d "\"" -f 2)
-    TIMESTAMP="$(date "+%s" -d "$LOCAL_DATE")"
-    DATE=$(TZ=UTC date "+%Y-%m-%dT%H:%M:%SZ" -d "@$TIMESTAMP")
-    echo "\"$DATE\",$TIMESTAMP,$(echo $LINE | cut -d "," -f2-)"
+    if TIMESTAMP="$(date "+%s" -d "$LOCAL_DATE" 2>/dev/null)"; then
+      DATE=$(TZ=UTC date "+%Y-%m-%dT%H:%M:%SZ" -d "@$TIMESTAMP")
+      echo "\"$DATE\",$TIMESTAMP,$(echo $LINE | cut -d "," -f2-)"
+    else
+      echo -e "[\e[31merror\e[0m] \e[1m${LOCAL_DATE}\e[0m is an invalid date" >&2
+      echo -e "[\e[31merror\e[0m] Dropping value \e[1m'$(echo $LINE | cut -d "," -f 2)'\e[0m" >&2
+    fi
   done
+  echo -e "[\e[2minfo\e[0m] \e[32mDone\e[0m handling \e[1m${json_file}\e[0m" >&2
 }
 
 main() {

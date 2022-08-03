@@ -26,5 +26,12 @@ jobs:
           CHANGES=$(git status -s | cut -d " " -f 3)
           if [[ -n "$CHANGES" ]]; then
             git commit -m "data: Automatic scrape on ${TIME/T/ }"
+            for file IN $CHANGES; do
+              output=$(echo "$file" | sed 's/.json$/.csv/')
+              echo "Processing $file into $output"
+              ./process $file > $output
+              git add $output
+            done;
+            git commit -m "data: Automatic processing on ${TIME/T/ }"
             git push origin
           fi
