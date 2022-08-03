@@ -26,7 +26,7 @@ jobs:
           CHANGES=$(git status -s | cut -d " " -f 3)
           if [[ -n "$CHANGES" ]]; then
             git commit -m "data: Automatic scrape on ${TIME/T/ }"
-            for file IN $CHANGES; do
+            for file in $CHANGES; do
               output=$(echo "$file" | sed 's/.json$/.csv/')
               echo "Processing $file into $output"
               ./process $file > $output
