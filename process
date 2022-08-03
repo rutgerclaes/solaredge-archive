@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+set -o errexit
+set -o nounset
+set -o pipefail
+
+convert_json() {
+  declare -r json_file="$1"
+  echo "$(jq -r 'keys[0] as $series | .[$series] | {series: $series,  unit: .unit, measuredBy: .measuredBy, timeUnit: .timeUnit } as $metadata | .values | map( [.date, .value // 0] + [ $metadata[] ] ) | .[] | @csv' "$json_file")" | while read LINE; do
+    LOCAL_DATE=$(echo $LINE | cut -d "\"" -f 2)
+    TIMESTAMP="$(date "+%s" -d "$LOCAL_DATE")"
+    DATE=$(TZ=UTC date "+%Y-%m-%dT%H:%M:%SZ" -d "@$TIMESTAMP")
+    echo "\"$DATE\",$TIMESTAMP,$(echo $LINE | cut -d "," -f2-)"
+  done
+}
+
+main() {
+  echo '"DATE","TIMESTAMP","VALUE","SERIES","UNIT","SOURCE","TIME_UNIT"'
+  for file in "$@"; do
+    convert_json $file
+  done
+}
+
+main "$@"
