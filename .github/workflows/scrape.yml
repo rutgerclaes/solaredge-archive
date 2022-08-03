@@ -25,17 +25,34 @@ jobs:
           ./archive $DATE
           git add "data/raw/$(date "+%Y/%m/%d" -d "$TIME")"
 
+          YESTERDAY="$(date +"%Y-%m-%d" -d "$TIME - 1 day")"
+          ./archive $YESTERDAY
+          git add "data/raw/$(date "+%Y/%m/%d" -d "$TIME - 1 day")"
+
           CHANGES=$(git status -s | cut -d " " -f 3)
+
+          echo "# 🦾 Scrape Results" >> $GITHUB_STEP_SUMMARY
           if [[ -n "$CHANGES" ]]; then
+            echo "## Raw Scrape Results" >> $GITHUB_STEP_SUMMARY
+            echo "Files scraped:" >> $GITHUB_STEP_SUMMARY
+            echo $CHANGES | sed -E 's/^/- /' >> $GITHUB_STEP_SUMMARY
+
             git commit -m "data: Automatic scrape on ${TIME/T/ }"
             
+            echo "## Data Processing" >> $GITHUB_STEP_SUMMARY
+
+            echo "### CSV Processing" >> $GITHUB_STEP_SUMMARY
+
             for file in $CHANGES; do
               output=$(echo "$file" | sed 's/raw/processed/' | sed 's/.json$/.csv/')
               echo "Processing $file into $output"
               mkdir -p "$(dirname $output)"
               ./process $file > $output
               git add $output
+              echo "- ${file} converted to ${output} ($(cat ${output} | wc -l) lines)" >> $GITHUB_STEP_SUMMARY 
             done;
+
+            echo "### Line Protocol Processing" >> $GITHUB_STEP_SUMMARY
 
             ENERGY_FILES=$(echo $CHANGES | grep "energy.csv" )
             for file in $ENERGY_FILES; do
@@ -43,6 +60,7 @@ jobs:
               echo "Converting $file into $output"
               ./influx energy energy_wh $file > $output
               git add $output
+              echo "- ${file} converted to ${output} ($(cat ${output} | wc -l) lines)" >> $GITHUB_STEP_SUMMARY 
             done;
 
             POWER_FILES=$(echo $CHANGES | grep "power.csv" )
@@ -51,6 +69,7 @@ jobs:
               echo "Converting $file into $output"
               ./influx power power_w $file > $output
               git add $output
+              echo "- ${file} converted to ${output} ($(cat ${output} | wc -l) lines)" >> $GITHUB_STEP_SUMMARY 
             done;
 
             git commit -m "data: Automatic processing on ${TIME/T/ }"
