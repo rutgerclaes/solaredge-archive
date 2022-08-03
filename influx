@@ -16,6 +16,6 @@ handle_line() {
 }
 
 echo "# Created on $(date "+%Y-%m-%dT%H:%M:%S%Z") based on '$csv_file'"
-tail -n +1 $csv_file | while read line; do
+tail -n +2 $csv_file | while read line; do
   echo $(handle_line "$line")
 done
