@@ -15,7 +15,7 @@ handle_line() {
   echo "$series_name,measured_by=$measured_by,time_unit=$time_unit,unit=$unit $value_name=${value} ${timestamp_ns}"
 }
 
+echo "# Created on $(date "+%Y-%m-%dT%H:%M:%S%Z") based on '$csv_file'"
 tail -n +1 $csv_file | while read line; do
-  echo "# Created on $(date "+%Y-%m-%dT%H:%M:%S%Z") based on '$csv_file'"
   echo $(handle_line "$line")
 done
