@@ -19,11 +19,12 @@ jobs:
           git config user.email "<>"
       - name: Scrape SolarEdge API
         run: |
-          DATE=$(date "+%Y-%m-%d")
+          TIME=$(date "+%Y-%m-%dT%T")
+          DATE=$(date "+%Y-%m-%d" -d "$TIME")
           ./archive $DATE
-          git add "data/raw/$(date "+%Y/%m/%d")"
+          git add "data/raw/$(date "+%Y/%m/%d" -d "$TIME")"
           CHANGES=$(git status -s | cut -d " " -f 3)
           if [[ -n "$CHANGES" ]]; then
-            git commit -m "data: Automatic scrape on ${DATE}"
+            git commit -m "data: Automatic scrape on ${TIME/T/ }"
             git push origin
           fi
