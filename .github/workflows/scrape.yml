@@ -7,13 +7,14 @@ jobs:
   scrape:
     name: Scrape SolarEdge
     runs-on: ubuntu-latest
+    env:
+      SOLAREDGE_API_TOKEN: "${{ secrets.SOLAREDGE_API_TOKEN }}"
+      SOLAREDGE_SITE_ID: "${{ secrets.SOLAREDGE_SITE_ID }}"
     steps:
       - uses: actions/checkout@v3
       - name: Setup Runner
         run: |
           sudo timedatectl set-timezone "Europe/Brussels"
-          export SOLAREDGE_API_TOKEN="${{ secrets.SOLAREDGE_API_TOKEN }}"
-          export SOLAREDGE_SITE_ID="${{ secrets.SOLAREDGE_SITE_ID }}"
           git config user.name "GitHub Bot"
           git config user.email "<>"
       - name: Scrape SolarEdge API
