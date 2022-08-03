@@ -4,20 +4,57 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
+NOW=$(date "+%s")
+DATE_FMT="%Y-%m-%dT%H:%M:%S %Z"
+
+RED="\e[31m"
+YELLOW="\e[33m"
+GREEN="\e[32m"
+RESET="\e[0m"
+BRIGHT="\e[1m"
+DIM="\e[2m"
+
+
+__msg_info() {
+  echo -e "[${DIM}info${RESET}] $1" >&2
+}
+
+__msg_warn() {
+  echo -e "[${YELLOW}warn${RESET}] $1" >&2
+}
+
+__msg_error() {
+  echo -e "[${RED}warn${RESET}] $1" >&2
+}
+
+highlight() {
+  echo -e "${BRIGHT}${1}${RESET}"
+}
+
+format_date() {
+  date "+$DATE_FMT" -d $1
+}
+
 convert_json() {
   declare -r json_file="$1"
-  echo -e "[\e[2minfo\e[0m] Handling \e[1m${json_file}\e[0m" >&2
+  __msg_info "Handling $(highlight "${json_file}")"
   echo "$(jq -r 'keys[0] as $series | .[$series] | {series: $series,  unit: .unit, measuredBy: .measuredBy, timeUnit: .timeUnit } as $metadata | .values | map( [.date, .value // 0] + [ $metadata[] ] ) | .[] | @csv' "$json_file")" | while read LINE; do
     LOCAL_DATE=$(echo $LINE | cut -d "\"" -f 2)
     if TIMESTAMP="$(date "+%s" -d "$LOCAL_DATE" 2>/dev/null)"; then
-      DATE=$(TZ=UTC date "+%Y-%m-%dT%H:%M:%SZ" -d "@$TIMESTAMP")
-      echo "\"$DATE\",$TIMESTAMP,$(echo $LINE | cut -d "," -f2-)"
+      if [[ "$TIMESTAMP" -lt "$NOW" ]]; then
+        DATE=$(TZ=UTC date "+$DATE_FMT" -d "@$TIMESTAMP")
+        echo "\"$DATE\",$TIMESTAMP,$(echo $LINE | cut -d "," -f2-)"
+      else
+        __msg_warn "Timestamp '$(highlight "$(format_date "@${TIMESTAMP}")")' is in future."
+        __msg_warn "  $TIMESTAMP ('$(format_date "@${TIMESTAMP}")') >= $NOW ('$(format_date "@${NOW}")')"
+        __msg_warn "  Dropping value '$(highlight "$(echo $LINE | cut -d "," -f 2)")'"
+      fi
     else
-      echo -e "[\e[31merror\e[0m] \e[1m${LOCAL_DATE}\e[0m is an invalid date" >&2
-      echo -e "[\e[31merror\e[0m] Dropping value \e[1m'$(echo $LINE | cut -d "," -f 2)'\e[0m" >&2
+      __msg_error "'$(highlight "${LOCAL_DATE}")' is an invalid date"
+      __msg_error "  Dropping value '$(highlight "$(echo $LINE | cut -d "," -f 2)")'"
     fi
   done
-  echo -e "[\e[2minfo\e[0m] \e[32mDone\e[0m handling \e[1m${json_file}\e[0m" >&2
+  __msg_info "${GREEN}Done${RESET} handling '$(highlight "${json_file}")'"
 }
 
 main() {
