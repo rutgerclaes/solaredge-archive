@@ -24,6 +24,6 @@ jobs:
           git add "data/raw/$(date "+%Y/%m/%d")"
           CHANGES=$(git status -s | cut -d " " -f 3)
           if [[ -z "$CHANGES" ]]; then
-            git commit -m "data: Automatic scrape 
+            git commit -m "data: Automatic scrape on ${DATE}"
             git push origin
           fi
