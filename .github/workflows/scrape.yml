@@ -49,8 +49,11 @@ jobs:
               mkdir -p "$(dirname $output)"
               ./process $file > $output
               echo -e "\e[1m[info] Done writing to '${output}'\e[0m"
-              git add $output
+              wc -l "${output}"
+              git add "$output"
+              echo "Done git add"
               echo "- ${file} converted to ${output} ($(cat ${output} | wc -l) lines)" >> $GITHUB_STEP_SUMMARY 
+              echo "Done summary"
             done;
 
             echo "### Line Protocol Processing" >> $GITHUB_STEP_SUMMARY
