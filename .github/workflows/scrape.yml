@@ -51,12 +51,13 @@ jobs:
               ./process $file > $output
               echo -e "\e[1m[info] Done writing to '${output}'\e[0m"
               echo "- ${file} converted to ${output} ($(cat ${output} | wc -l) lines)" >> $GITHUB_STEP_SUMMARY 
+              git add "$output"
             done;
 
             echo "### Line Protocol Processing" >> $GITHUB_STEP_SUMMARY
 
-            echo "$CHANGES" | grep -F "energy.csv"
-            ENERGY_FILES=$(echo "$CHANGES" | grep -F "energy.csv" )
+            ENERGY_FILES=$(git status -s | cut -d " " -f 3 | grep -F "energy.csv" )
+            POWER_FILES=$(git status -s | cut -d " " -f 3 | grep -F "power.csv" )
 
             echo "${ENERGY_FILES}"
             echo "\e[1m[info] Energy files: ${ENERGY_FILES}\e[0m"
@@ -68,7 +69,6 @@ jobs:
               echo "- ${file} converted to ${output} ($(cat ${output} | wc -l) lines)" >> $GITHUB_STEP_SUMMARY 
             done;
 
-            POWER_FILES=$(echo $CHANGES | grep -F "power.csv" )
             echo "\e[1m[info] Power files: ${POWER_FILES}\e[0m"
             for file in $POWER_FILES; do
               output=$(echo "$file" | sed 's/power\.csv/power.lp/')
