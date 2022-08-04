@@ -45,7 +45,7 @@ jobs:
 
             for file in $CHANGES; do
               output=$(echo "$file" | sed 's/raw/processed/' | sed 's/.json$/.csv/')
-              echo "Processing $file into $output"
+              echo -e "\e[1m[info] Processing '${file}' into '${output}'\e[0m"
               mkdir -p "$(dirname $output)"
               ./process $file > $output
               git add $output
@@ -54,19 +54,21 @@ jobs:
 
             echo "### Line Protocol Processing" >> $GITHUB_STEP_SUMMARY
 
-            ENERGY_FILES=$(echo $CHANGES | grep "energy.csv" )
+            ENERGY_FILES=$(echo $CHANGES | grep -F "energy.csv" )
+            echo "\e[1m[info] Energy files: ${ENERGY_FILES}\e[0m"
             for file in $ENERGY_FILES; do
               output=$(echo "$file" | sed 's/energy\.csv/energy.lp/')
-              echo "Converting $file into $output"
+              echo -e "\e[1m[info] Processing energy file '${file}' into '${output}'\e[0m"
               ./influx energy energy_wh $file > $output
               git add $output
               echo "- ${file} converted to ${output} ($(cat ${output} | wc -l) lines)" >> $GITHUB_STEP_SUMMARY 
             done;
 
-            POWER_FILES=$(echo $CHANGES | grep "power.csv" )
+            POWER_FILES=$(echo $CHANGES | grep -F "power.csv" )
+            echo "\e[1m[info] Power files: ${POWER_FILES}\e[0m"
             for file in $POWER_FILES; do
               output=$(echo "$file" | sed 's/power\.csv/power.lp/')
-              echo "Converting $file into $output"
+              echo -e "\e[1m[info] Processing power file '${file}' into '${output}'\e[0m"
               ./influx power power_w $file > $output
               git add $output
               echo "- ${file} converted to ${output} ($(cat ${output} | wc -l) lines)" >> $GITHUB_STEP_SUMMARY 
