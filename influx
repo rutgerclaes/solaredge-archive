@@ -11,7 +11,7 @@ field() {
 handle_line() {
   declare -r line="$1"
   declare -r timestamp="$(field "${line}" 2)" value="$(field "${line}" 3)" unit="$(field "${line}" 5)" measured_by="$(field "${line}" 6)" time_unit="$(field "${line}" 7)"
-  timestamp_ns="${timestamp}000000"
+  timestamp_ns="${timestamp}000000000"
   echo "$series_name,measured_by=$measured_by,time_unit=$time_unit,unit=$unit $value_name=${value} ${timestamp_ns}"
 }
 
