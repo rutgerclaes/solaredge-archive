@@ -54,7 +54,9 @@ jobs:
 
             echo "### Line Protocol Processing" >> $GITHUB_STEP_SUMMARY
 
-            ENERGY_FILES=$(echo $CHANGES | grep -F "energy.csv" )
+            echo "$CHANGES" | grep -F "energy.csv"
+
+            ENERGY_FILES=$(echo "$CHANGES" | grep -F "energy.csv" )
             echo "${ENERGY_FILES}"
             echo "\e[1m[info] Energy files: ${ENERGY_FILES}\e[0m"
             for file in $ENERGY_FILES; do
