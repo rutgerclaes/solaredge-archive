@@ -35,7 +35,7 @@ jobs:
           if [[ -n "$CHANGES" ]]; then
             echo "## Raw Scrape Results" >> $GITHUB_STEP_SUMMARY
             echo "Files scraped:" >> $GITHUB_STEP_SUMMARY
-            echo "${CHANGES/ /$\'n'}" | sed -E 's/^/- /' >> $GITHUB_STEP_SUMMARY
+            echo "${CHANGES/ /$'\n'}" | sed -E 's/^/- /' >> $GITHUB_STEP_SUMMARY
 
             git commit -m "data: Automatic scrape on ${TIME/T/ }"
             
