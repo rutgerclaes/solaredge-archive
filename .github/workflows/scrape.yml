@@ -25,9 +25,9 @@ jobs:
           ./archive $DATE
           git add "data/raw/$(date "+%Y/%m/%d" -d "$TIME")"
 
-          YESTERDAY="$(date +"%Y-%m-%d" -d "$TIME - 1 day")"
+          YESTERDAY="$(date +"%Y-%m-%d" -d "$TIME 1 day ago")"
           ./archive $YESTERDAY
-          git add "data/raw/$(date "+%Y/%m/%d" -d "$TIME - 1 day")"
+          git add "data/raw/$(date "+%Y/%m/%d" -d "$TIME 1 day ago")"
 
           CHANGES=$(git status -s | cut -d " " -f 3)
 
@@ -48,6 +48,7 @@ jobs:
               echo -e "\e[1m[info] Processing '${file}' into '${output}'\e[0m"
               mkdir -p "$(dirname $output)"
               ./process $file > $output
+              echo -e "\e[1m[info] Done writing to '${output}'\e[0m"
               git add $output
               echo "- ${file} converted to ${output} ($(cat ${output} | wc -l) lines)" >> $GITHUB_STEP_SUMMARY 
             done;
