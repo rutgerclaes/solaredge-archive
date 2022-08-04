@@ -35,7 +35,7 @@ jobs:
           if [[ -n "$CHANGES" ]]; then
             echo "## Raw Scrape Results" >> $GITHUB_STEP_SUMMARY
             echo "Files scraped:" >> $GITHUB_STEP_SUMMARY
-            echo $CHANGES | sed -E 's/^/- /' >> $GITHUB_STEP_SUMMARY
+            echo "${CHANGES/ /$\'n'}" | sed -E 's/^/- /' >> $GITHUB_STEP_SUMMARY
 
             git commit -m "data: Automatic scrape on ${TIME/T/ }"
             
@@ -49,16 +49,13 @@ jobs:
               mkdir -p "$(dirname $output)"
               ./process $file > $output
               echo -e "\e[1m[info] Done writing to '${output}'\e[0m"
-              wc -l "${output}"
-              git add "$output"
-              echo "Done git add"
               echo "- ${file} converted to ${output} ($(cat ${output} | wc -l) lines)" >> $GITHUB_STEP_SUMMARY 
-              echo "Done summary"
             done;
 
             echo "### Line Protocol Processing" >> $GITHUB_STEP_SUMMARY
 
             ENERGY_FILES=$(echo $CHANGES | grep -F "energy.csv" )
+            echo "${ENERGY_FILES}"
             echo "\e[1m[info] Energy files: ${ENERGY_FILES}\e[0m"
             for file in $ENERGY_FILES; do
               output=$(echo "$file" | sed 's/energy\.csv/energy.lp/')
