@@ -1,4 +1,4 @@
-# Created on 2023-05-09T14:46:08CEST based on 'data/processed/2023/05/09/power.csv'
+# Created on 2023-05-10T02:41:06CEST based on 'data/processed/2023/05/09/power.csv'
 power,measured_by=INVERTER,time_unit=QUARTER_OF_AN_HOUR,unit=W power_w=0 1683583200000000000
 power,measured_by=INVERTER,time_unit=QUARTER_OF_AN_HOUR,unit=W power_w=0 1683584100000000000
 power,measured_by=INVERTER,time_unit=QUARTER_OF_AN_HOUR,unit=W power_w=0 1683585000000000000
@@ -58,4 +58,40 @@ power,measured_by=INVERTER,time_unit=QUARTER_OF_AN_HOUR,unit=W power_w=857.4363 
 power,measured_by=INVERTER,time_unit=QUARTER_OF_AN_HOUR,unit=W power_w=698.87036 1683633600000000000
 power,measured_by=INVERTER,time_unit=QUARTER_OF_AN_HOUR,unit=W power_w=529.95624 1683634500000000000
 power,measured_by=INVERTER,time_unit=QUARTER_OF_AN_HOUR,unit=W power_w=520.84155 1683635400000000000
-power,measured_by=INVERTER,time_unit=QUARTER_OF_AN_HOUR,unit=W power_w=0 1683636300000000000
+power,measured_by=INVERTER,time_unit=QUARTER_OF_AN_HOUR,unit=W power_w=491.51022 1683636300000000000
+power,measured_by=INVERTER,time_unit=QUARTER_OF_AN_HOUR,unit=W power_w=341.0041 1683637200000000000
+power,measured_by=INVERTER,time_unit=QUARTER_OF_AN_HOUR,unit=W power_w=580.00916 1683638100000000000
+power,measured_by=INVERTER,time_unit=QUARTER_OF_AN_HOUR,unit=W power_w=575.65344 1683639000000000000
+power,measured_by=INVERTER,time_unit=QUARTER_OF_AN_HOUR,unit=W power_w=599.87634 1683639900000000000
+power,measured_by=INVERTER,time_unit=QUARTER_OF_AN_HOUR,unit=W power_w=637.0397 1683640800000000000
+power,measured_by=INVERTER,time_unit=QUARTER_OF_AN_HOUR,unit=W power_w=722.431 1683641700000000000
+power,measured_by=INVERTER,time_unit=QUARTER_OF_AN_HOUR,unit=W power_w=474.3244 1683642600000000000
+power,measured_by=INVERTER,time_unit=QUARTER_OF_AN_HOUR,unit=W power_w=385.32483 1683643500000000000
+power,measured_by=INVERTER,time_unit=QUARTER_OF_AN_HOUR,unit=W power_w=366.89725 1683644400000000000
+power,measured_by=INVERTER,time_unit=QUARTER_OF_AN_HOUR,unit=W power_w=355.95477 1683645300000000000
+power,measured_by=INVERTER,time_unit=QUARTER_OF_AN_HOUR,unit=W power_w=263.63666 1683646200000000000
+power,measured_by=INVERTER,time_unit=QUARTER_OF_AN_HOUR,unit=W power_w=242.86299 1683647100000000000
+power,measured_by=INVERTER,time_unit=QUARTER_OF_AN_HOUR,unit=W power_w=265.34668 1683648000000000000
+power,measured_by=INVERTER,time_unit=QUARTER_OF_AN_HOUR,unit=W power_w=211.68474 1683648900000000000
+power,measured_by=INVERTER,time_unit=QUARTER_OF_AN_HOUR,unit=W power_w=270.45193 1683649800000000000
+power,measured_by=INVERTER,time_unit=QUARTER_OF_AN_HOUR,unit=W power_w=202.9654 1683650700000000000
+power,measured_by=INVERTER,time_unit=QUARTER_OF_AN_HOUR,unit=W power_w=94.7091 1683651600000000000
+power,measured_by=INVERTER,time_unit=QUARTER_OF_AN_HOUR,unit=W power_w=144.25743 1683652500000000000
+power,measured_by=INVERTER,time_unit=QUARTER_OF_AN_HOUR,unit=W power_w=164.66356 1683653400000000000
+power,measured_by=INVERTER,time_unit=QUARTER_OF_AN_HOUR,unit=W power_w=120.09564 1683654300000000000
+power,measured_by=INVERTER,time_unit=QUARTER_OF_AN_HOUR,unit=W power_w=97.508835 1683655200000000000
+power,measured_by=INVERTER,time_unit=QUARTER_OF_AN_HOUR,unit=W power_w=81.64466 1683656100000000000
+power,measured_by=INVERTER,time_unit=QUARTER_OF_AN_HOUR,unit=W power_w=44.88262 1683657000000000000
+power,measured_by=INVERTER,time_unit=QUARTER_OF_AN_HOUR,unit=W power_w=9.269646 1683657900000000000
+power,measured_by=INVERTER,time_unit=QUARTER_OF_AN_HOUR,unit=W power_w=0 1683658800000000000
+power,measured_by=INVERTER,time_unit=QUARTER_OF_AN_HOUR,unit=W power_w=0 1683659700000000000
+power,measured_by=INVERTER,time_unit=QUARTER_OF_AN_HOUR,unit=W power_w=0 1683660600000000000
+power,measured_by=INVERTER,time_unit=QUARTER_OF_AN_HOUR,unit=W power_w=0 1683661500000000000
+power,measured_by=INVERTER,time_unit=QUARTER_OF_AN_HOUR,unit=W power_w=0 1683662400000000000
+power,measured_by=INVERTER,time_unit=QUARTER_OF_AN_HOUR,unit=W power_w=0 1683663300000000000
+power,measured_by=INVERTER,time_unit=QUARTER_OF_AN_HOUR,unit=W power_w=0 1683664200000000000
+power,measured_by=INVERTER,time_unit=QUARTER_OF_AN_HOUR,unit=W power_w=0 1683665100000000000
+power,measured_by=INVERTER,time_unit=QUARTER_OF_AN_HOUR,unit=W power_w=0 1683666000000000000
+power,measured_by=INVERTER,time_unit=QUARTER_OF_AN_HOUR,unit=W power_w=0 1683666900000000000
+power,measured_by=INVERTER,time_unit=QUARTER_OF_AN_HOUR,unit=W power_w=0 1683667800000000000
+power,measured_by=INVERTER,time_unit=QUARTER_OF_AN_HOUR,unit=W power_w=0 1683668700000000000
