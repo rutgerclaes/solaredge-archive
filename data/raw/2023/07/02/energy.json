@@ -238,127 +238,127 @@
       },
       {
         "date": "2023-07-02 14:30:00",
-        "value": 111
+        "value": 366
       },
       {
         "date": "2023-07-02 14:45:00",
-        "value": null
+        "value": 632
       },
       {
         "date": "2023-07-02 15:00:00",
-        "value": null
+        "value": 633
       },
       {
         "date": "2023-07-02 15:15:00",
-        "value": null
+        "value": 643
       },
       {
         "date": "2023-07-02 15:30:00",
-        "value": null
+        "value": 614
       },
       {
         "date": "2023-07-02 15:45:00",
-        "value": null
+        "value": 555
       },
       {
         "date": "2023-07-02 16:00:00",
-        "value": null
+        "value": 522
       },
       {
         "date": "2023-07-02 16:15:00",
-        "value": null
+        "value": 474
       },
       {
         "date": "2023-07-02 16:30:00",
-        "value": null
+        "value": 642
       },
       {
         "date": "2023-07-02 16:45:00",
-        "value": null
+        "value": 506
       },
       {
         "date": "2023-07-02 17:00:00",
-        "value": null
+        "value": 358
       },
       {
         "date": "2023-07-02 17:15:00",
-        "value": null
+        "value": 320
       },
       {
         "date": "2023-07-02 17:30:00",
-        "value": null
+        "value": 388
       },
       {
         "date": "2023-07-02 17:45:00",
-        "value": null
+        "value": 518
       },
       {
         "date": "2023-07-02 18:00:00",
-        "value": null
+        "value": 424
       },
       {
         "date": "2023-07-02 18:15:00",
-        "value": null
+        "value": 289
       },
       {
         "date": "2023-07-02 18:30:00",
-        "value": null
+        "value": 269
       },
       {
         "date": "2023-07-02 18:45:00",
-        "value": null
+        "value": 311
       },
       {
         "date": "2023-07-02 19:00:00",
-        "value": null
+        "value": 309
       },
       {
         "date": "2023-07-02 19:15:00",
-        "value": null
+        "value": 233
       },
       {
         "date": "2023-07-02 19:30:00",
-        "value": null
+        "value": 228
       },
       {
         "date": "2023-07-02 19:45:00",
-        "value": null
+        "value": 162
       },
       {
         "date": "2023-07-02 20:00:00",
-        "value": null
+        "value": 110
       },
       {
         "date": "2023-07-02 20:15:00",
-        "value": null
+        "value": 62
       },
       {
         "date": "2023-07-02 20:30:00",
-        "value": null
+        "value": 42
       },
       {
         "date": "2023-07-02 20:45:00",
-        "value": null
+        "value": 46
       },
       {
         "date": "2023-07-02 21:00:00",
-        "value": null
+        "value": 29
       },
       {
         "date": "2023-07-02 21:15:00",
-        "value": null
+        "value": 20
       },
       {
         "date": "2023-07-02 21:30:00",
-        "value": null
+        "value": 6
       },
       {
         "date": "2023-07-02 21:45:00",
-        "value": null
+        "value": 0
       },
       {
         "date": "2023-07-02 22:00:00",
-        "value": null
+        "value": 0
       },
       {
         "date": "2023-07-02 22:15:00",
@@ -386,7 +386,7 @@
       },
       {
         "date": "2023-07-02 23:45:00",
-        "value": null
+        "value": 0
       }
     ]
   }
