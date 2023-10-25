@@ -1,0 +1,12 @@
+# Created on 2023-10-25T02:40:02CEST based on 'data/processed/2023/10/25/energy.csv'
+energy,measured_by=INVERTER,time_unit=QUARTER_OF_AN_HOUR,unit=Wh energy_wh=0 1698184800000000000
+energy,measured_by=INVERTER,time_unit=QUARTER_OF_AN_HOUR,unit=Wh energy_wh=0 1698185700000000000
+energy,measured_by=INVERTER,time_unit=QUARTER_OF_AN_HOUR,unit=Wh energy_wh=0 1698186600000000000
+energy,measured_by=INVERTER,time_unit=QUARTER_OF_AN_HOUR,unit=Wh energy_wh=0 1698187500000000000
+energy,measured_by=INVERTER,time_unit=QUARTER_OF_AN_HOUR,unit=Wh energy_wh=0 1698188400000000000
+energy,measured_by=INVERTER,time_unit=QUARTER_OF_AN_HOUR,unit=Wh energy_wh=0 1698189300000000000
+energy,measured_by=INVERTER,time_unit=QUARTER_OF_AN_HOUR,unit=Wh energy_wh=0 1698190200000000000
+energy,measured_by=INVERTER,time_unit=QUARTER_OF_AN_HOUR,unit=Wh energy_wh=0 1698191100000000000
+energy,measured_by=INVERTER,time_unit=QUARTER_OF_AN_HOUR,unit=Wh energy_wh=0 1698192000000000000
+energy,measured_by=INVERTER,time_unit=QUARTER_OF_AN_HOUR,unit=Wh energy_wh=0 1698192900000000000
+energy,measured_by=INVERTER,time_unit=QUARTER_OF_AN_HOUR,unit=Wh energy_wh=0 1698193800000000000
