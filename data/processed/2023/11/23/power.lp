@@ -1,0 +1,8 @@
+# Created on 2023-11-23T01:40:08CET based on 'data/processed/2023/11/23/power.csv'
+power,measured_by=INVERTER,time_unit=QUARTER_OF_AN_HOUR,unit=W power_w=0 1700694000000000000
+power,measured_by=INVERTER,time_unit=QUARTER_OF_AN_HOUR,unit=W power_w=0 1700694900000000000
+power,measured_by=INVERTER,time_unit=QUARTER_OF_AN_HOUR,unit=W power_w=0 1700695800000000000
+power,measured_by=INVERTER,time_unit=QUARTER_OF_AN_HOUR,unit=W power_w=0 1700696700000000000
+power,measured_by=INVERTER,time_unit=QUARTER_OF_AN_HOUR,unit=W power_w=0 1700697600000000000
+power,measured_by=INVERTER,time_unit=QUARTER_OF_AN_HOUR,unit=W power_w=0 1700698500000000000
+power,measured_by=INVERTER,time_unit=QUARTER_OF_AN_HOUR,unit=W power_w=0 1700699400000000000
